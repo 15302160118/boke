@@ -21,8 +21,17 @@
 	           		$this->error("未登录,不允许访问",'login/index');
 	           }
 	        }
+	        $admin=session('username','','admin');
+	        if(session('username','','admin')=='a')//如果是管理员传过来的session为a,就进入index页面的侧边栏导航的管理员所看到的内容
+	        {
+	        	$this->assign('account',$admin);
+	        }
+	        else //如果不是就进入用户所看到的内容
+	        {
+	        	$this->assign('account',null);
+	        }
 	        $this->assign('username',session('username','','admin'));
-	        $this->assign('password',session('password','123','admin'));
+	        $this->assign('id',session('id','','admin'));//之前要有session存放才可以赋给前台比如给，index/index页面
 		// 	function setstate($state)
 			// {
 			// 	if($state==='状态')

@@ -7,7 +7,15 @@
     <title>双语企业网站后台</title>
     <link rel="stylesheet" href="__ADMIN__/css/style.css">
     <link rel="stylesheet" href="__ADMIN__/css/layui/layui/css/layui.css">
-    
+    <style>
+        .img-logo{
+            width: auto;
+            height: 80px;
+        }
+        .logo-wei{
+            text-align: center;
+        }
+    </style>
 </head>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
@@ -17,7 +25,7 @@
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item layui-hide-xs">
                 <a href="javascript:;">
-                    <i class="layui-icon" style="font-size: 1.2rem;">&#xe612;</i>
+                    欢迎您：<i class="layui-icon" style="font-size: 1.2rem;">&#xe612;</i>
                 {$username}
                 </a>
             </li>
@@ -27,7 +35,7 @@
                     设置
                 </a>
                 <dl class="layui-nav-child">
-                    <dd><a href="{:url('Config/index')}">系统设置</a></dd>
+                    <dd><a href="{:url('Author/logo')}" target="_content">头像修改</a></dd>
                     <dd><a href="{:url('author/setpass')}" target="_content">密码修改</a></dd>
                 </dl>
             </li>
@@ -35,39 +43,32 @@
         </ul>
     </div>
 
+    {if condition='$account'}<!-- 如果common表中account有传内容过来的话就进if语句 -->
+    <!--  管理员所看到页面 -->
     <div class="layui-side layui-bg-black">
         <div class="layui-side-scroll">
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+                
+                <li class="layui-nav-item layui-nav-itemed logo-wei">
+                    <img src="" alt="请添加您的个人头像"  class='img-logo'>
+                </li>
+                {/volist}
                 <li class="layui-nav-item layui-nav-itemed">
                     <a class="" href="{:url('index/system')}" target="_content">后台首页</a>
                   
                 </li>
                 <li class="layui-nav-item">
-                    <a href="javascript:{:url('author/index')};" target="_content">用户管理</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="{:url('author/index')}" target="_content">用户列表</a></dd>
-                        <dd><a href="{:url('')}" target="_content">修改用户信息</a></dd>
-                    </dl>
+                   
+                    <a href="{:url('author/admin_index')}" target="_content">用户列表</a></dd>
+                     
+  
                 </li>
-				
-                <li class="layui-nav-item">
-                    <a href="javascript:;">轮播图管理</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="{:url('Banner/index')}" target="_content">轮播图列表</a></dd>
-                        <dd><a href="{:url('Banner/add')}" target="_content">添加轮播图</a></dd>
-                    </dl>
-                </li>
-                
-                <li class="layui-nav-item"><a href="{:url('file/index')}" target="_content">文件管理</a></li>
 
 
                 <li class="layui-nav-item">
-                    <a href="javascript:;">文章</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="{:url('Banner/index')}" target="_content">我的最新文章</a></dd>
-                        <dd><a href="{:url('Banner/add')}" target="_content">发表文章</a></dd>
-                    </dl>
+                    <a href="{:url('article/article_admin')}" target="_content">文章列表</a>
+                     
                 </li>
 
                 <li class="layui-nav-item">
@@ -86,10 +87,54 @@
                         
                     </dl>
                 </li>
+
+                <li class="layui-nav-item">
+                    <a onclick='boke()'>博客页面</a>
+                </li>
             </ul>
         </div>
     </div>
+    
 
+    {else/}
+    <!-- 用户所看的页面即它的html -->
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+                
+                <li class="layui-nav-item layui-nav-itemed logo-wei shua">
+                    {volist name='logo' id='vo'}
+                    <img src="/boke/public/uploads/{$vo.logo}" alt="请添加您的个人头像"  class='img-logo'>
+                    {/volist}
+                </li>
+                
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="{:url('index/system')}" target="_content">后台首页</a>
+                  
+                </li>
+                
+
+                <li class="layui-nav-item">
+                    <a href="{:url('author/edit')}" target='_content'>修改个人资料</a>
+                </li>
+
+
+                <li class="layui-nav-item">
+                    <a href="javascript:;">文章管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="{:url('Article/article_author')}" target="_content">我的文章</a></dd>
+                        <dd><a href="{:url('Article/add')}" target="_content">发表文章</a></dd>
+                    </dl>
+                </li>
+                
+                 <li class="layui-nav-item">
+                    <a onclick='boke()' href="{:url('boke/index')}">博客页面</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    {/if}
     
 
 
@@ -100,9 +145,8 @@
     </div>
 
 </div>
-<script src="__ADMIN__/css/jquery.min.js"></script>
+<script src="__ADMIN__/js/jquery.min.js"></script>
 <script src="__ADMIN__/css/layui/layui/layui.js"></script>
-<!-- <script src="custom/js/admin.js"></script> -->
 <script>
     //JavaScript代码区域
     layui.use('element', function(){
@@ -111,6 +155,12 @@
     });
 
 </script>
+<script>
+    function boke()
+    {
+        window.top.location.reload();
 
+    }
+</script>
 </body>
 </html>

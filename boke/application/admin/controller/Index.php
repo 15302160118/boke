@@ -7,6 +7,9 @@
 	{
 		public function index()
 		{
+			$username=session('username','','admin');
+			$res=model('author')->where('username',$username)->select();
+			$this->assign('logo',$res);
 			return view();
 		}
 		public function system()
